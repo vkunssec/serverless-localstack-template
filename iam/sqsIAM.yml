@@ -1,0 +1,6 @@
+sqsIAM:
+  Effect: Allow
+  Action: 
+    - sqs:ReceiveMessage
+    - sqs:SendMessage
+  Resource: arn:aws:sqs:*:*:*

@@ -1,0 +1,24 @@
+{
+  "name": "serverless-localstack-template",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "local:build": "tsc --preserveWatchOutput --watch",
+    "local:deploy": "npx serverless deploy --stage=local --verbose",
+    "local:start": "concurrently \"npm run local:build\""
+  },
+  "keywords": [],
+  "author": "vkunssec",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^16.4.7",
+    "concurrently": "^6.2.0",
+    "serverless": "^2.52.1",
+    "serverless-localstack": "^0.4.32",
+    "typescript": "^4.3.5"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.956.0"
+  }
+}

@@ -1,0 +1,74 @@
+service: localstack-template
+frameworkVersion: '2'
+
+plugins:
+  - serverless-localstack
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  lambdaHashingVersion: 20201221
+  stage: ${opt:stage, 'local'}
+  environment:
+    STAGE: ${self:provider.stage}
+    QUEUE_URL: ${self:custom.sqsTests.url}
+  iam:
+    role:
+      statements:
+        - ${file(iam/sqsIAM.yml):sqsIAM}
+
+resources:
+  Resources:
+    sqsTests: ${file(resources/sqsTests.yml):sqsTests}
+  Outputs:
+    sqsTestsArn: ${file(resources/sqsTests.yml):Outputs.sqsTestsArn}
+    sqsTestsUrl: ${file(resources/sqsTests.yml):Outputs.sqsTestsUrl}
+
+functions:
+  hello:
+    handler: dist/lambda/hello.handler
+    events:
+      - http:
+          method: GET
+          path: /
+          cors: true
+  
+  send:
+    handler: dist/lambda/send.handler
+    events:
+      - http:
+          method: GET
+          path: /send
+          cors: true
+  
+  receive:
+    handler: dist/lambda/receive.handler
+    events:
+      - sqs:
+          arn: ${self:custom.sqsTests.arn}
+          batchSize: 1
+
+custom:
+  sqsTests: 
+    name: sqsTests-${self:provider.stage}
+    arn: !GetAtt sqsTests.Arn
+    url: !Ref sqsTests
+
+  localstack:
+    stages:
+      - local
+    debug: true
+    autostart: false
+    endpoints:
+      S3: http://localhost:4572
+      DynamoDB: http://localhost:4569
+      CloudFormation: http://localhost:4581
+      Elasticsearch: http://localhost:4571
+      ES: http://localhost:4578
+      SNS: http://localhost:4575
+      SQS: http://localhost:4576
+      Lambda: http://localhost:4574
+      Kinesis: http://localhost:4568
+    host: "http://localhost"
+    lambda:
+      mountCode: false

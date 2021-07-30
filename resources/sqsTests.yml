@@ -1,0 +1,14 @@
+sqsTests:
+  Type: "AWS::SQS::Queue"
+  Properties:
+    QueueName: ${self:service}-${self:provider.stage}-tests-queue
+
+Outputs:
+  sqsTestsArn:
+    Value: ${self:custom.sqsTests.arn}
+    Export:
+      Name: ${self:custom.sqsTests.name}-Arn
+  sqsTestsUrl:
+    Value: ${self:custom.sqsTests.url}
+    Export:
+      Name: ${self:custom.sqsTests.name}-Url

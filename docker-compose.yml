@@ -1,0 +1,53 @@
+version: '3.7'
+
+services:
+    localstack:
+        container_name: localstack
+        image: localstack/localstack:latest
+        ports:
+            - "4566-4597:4566-4597"
+            - "8080:8080"
+        environment:
+            - AWS_DEFAULT_REGION=us-east-1
+            - SERVICES=sqs,sns,ses,s3,lambda,events,cloudformation,cloudwatch,sts,iam,dynamodb,apigateway,elasticsearch,es,kinesis
+            - DEBUG=1
+            - LS_LOG=trace,debug,info,warn,error,warning
+            - LAMBDA_EXECUTOR=docker
+            - DOCKER_HOST=unix:///var/run/docker.sock
+        volumes:
+            - "/var/run/docker.sock:/var/run/docker.sock"
+        restart: always
+
+    redis:
+        container_name: redis
+        image: redis:latest
+        command: redis-server
+        ports:
+            - "6379:6379"
+        environment:
+            - REDIS_REPLICATION_MODE=master
+        restart: always
+
+    app:
+        container_name: app
+        build: 
+            context: .
+            dockerfile: Dockerfile
+        volumes:
+            - .:/src
+            - node_modules:/src/node_modules
+        ports:
+            - 3000:3000
+        links:
+            - localstack
+            - redis
+        depends_on: 
+            - localstack
+            - redis
+        environment: 
+            LOCALSTACK_HOST: localstack
+            REDIS_HOST: redis
+        restart: always
+
+volumes:
+    node_modules: {}

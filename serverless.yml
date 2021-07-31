@@ -2,6 +2,8 @@ service: localstack-template
 frameworkVersion: '2'
 
 plugins:
+  - serverless-offline
+  - serverless-webpack
   - serverless-localstack
 
 provider:
@@ -26,7 +28,7 @@ resources:
 
 functions:
   hello:
-    handler: dist/lambda/hello.handler
+    handler: src/lambda/hello.handler
     events:
       - http:
           method: GET
@@ -34,7 +36,7 @@ functions:
           cors: true
   
   send:
-    handler: dist/lambda/send.handler
+    handler: src/lambda/send.handler
     events:
       - http:
           method: GET
@@ -42,7 +44,7 @@ functions:
           cors: true
   
   receive:
-    handler: dist/lambda/receive.handler
+    handler: src/lambda/receive.handler
     events:
       - sqs:
           arn: ${self:custom.sqsTests.arn}

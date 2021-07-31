@@ -1,6 +1,6 @@
 FROM node:14-alpine
 
-RUN npm install --global typescript serverless aws-sdk
+RUN npm install --global serverless
 
 WORKDIR /src/
 

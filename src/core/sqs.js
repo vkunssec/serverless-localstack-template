@@ -8,9 +8,6 @@ export const send = async (values) => {
         QueueUrl: process.env.QUEUE_URL,
         MessageBody: JSON.stringify(values),
     };
-    console.log(process.env.QUEUE_URL);
-    console.log(process.env.QUEUE_NAME);
-    console.log(process.env.QUEUE_ARN);
 
     try {
         return await sqs.sendMessage(params).promise();

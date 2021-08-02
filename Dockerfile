@@ -1,7 +1,5 @@
 FROM node:14-alpine
 
-RUN npm install --global serverless
-
 WORKDIR /src/
 
 COPY package.json package-lock.json /src/

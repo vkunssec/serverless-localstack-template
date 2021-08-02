@@ -28,6 +28,16 @@ services:
             - REDIS_REPLICATION_MODE=master
         restart: always
 
+    mongodb:
+        container_name: mongodb
+        image : mongo
+        environment:
+            - PUID=1000
+            - PGID=1000
+        ports:
+            - 27017:27017
+        restart: always
+
     app:
         container_name: app
         build: 
@@ -41,9 +51,11 @@ services:
         links:
             - localstack
             - redis
+            - mongodb
         depends_on: 
             - localstack
             - redis
+            - mongodb
         environment: 
             LOCALSTACK_HOST: localstack
             REDIS_HOST: redis

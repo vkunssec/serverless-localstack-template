@@ -7,6 +7,7 @@
     "local:deploy": "npx serverless deploy --stage=local --verbose",
     "local:offline": "npm run offline",
     "local:start": "npm run local:ci && npx nodemon --exec npm run local:offline",
+    "ci:test": "npx jest --verbose",
     "offline": "npx serverless offline start --host 0.0.0.0 --useChildProcesses --hideStackTraces --useWorkerThreads",
     "test": "npx jest --coverage --watchAll"
   },

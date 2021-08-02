@@ -29,7 +29,6 @@ export const receive = async () => {
 
     try {
         const res = await sqs.receiveMessage(params).promise();
-        console.log(res);
         return res;
     } catch (error) {
         return new Error(error);

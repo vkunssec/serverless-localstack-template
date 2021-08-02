@@ -10,6 +10,7 @@ provider:
   name: aws
   runtime: nodejs14.x
   lambdaHashingVersion: 20201221
+  region: ${opt:region, 'us-east-1'}
   stage: ${opt:stage, 'local'}
   environment:
     STAGE: ${self:provider.stage}

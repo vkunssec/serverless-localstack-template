@@ -9,7 +9,7 @@ async function send(event, context) {
         return { 
             statusCode: 200,
             body: JSON.stringify(res),
-         };
+        };
     } catch (error) {
         return {
             statusCode: 500,

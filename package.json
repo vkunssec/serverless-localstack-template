@@ -3,10 +3,12 @@
   "version": "1.0.0",
   "description": "Template Serverless para desenvolvimento de aplicações, utilizando LocalStack para reproduzir e testar em um ambiente de Cloud, semelhante à produção.",
   "scripts": {
+    "local:ci": "npm ci --silent",
     "local:deploy": "npx serverless deploy --stage=local --verbose",
-    "local:offline": "npx serverless offline start --host 0.0.0.0 --useChildProcesses --hideStackTraces --useWorkerThreads",
-    "local:start": "npx nodemon --exec npm run local:offline",
-    "test": "npx jest --coverage"
+    "local:offline": "npm run offline",
+    "local:start": "npm run local:ci && npx nodemon --exec npm run local:offline",
+    "offline": "npx serverless offline start --host 0.0.0.0 --useChildProcesses --hideStackTraces --useWorkerThreads",
+    "test": "npx jest --coverage --watchAll"
   },
   "keywords": [
     "serverless",

@@ -2,7 +2,8 @@ name: NodeJS CI
 
 on: 
   push: 
-    branch: [ develop ]
+    branchs:
+      - develop
 
 jobs:
   build:
